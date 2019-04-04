@@ -80,7 +80,6 @@
   color: black;
   cursor: pointer;
   outline: 0;
-  /* transition: all 0.1s linear; */
 
   border-style: solid;
   border-radius: 2px;
@@ -100,8 +99,3 @@
   -moz-box-shadow: inset 0px 1px 1px 0px rgba(240, 237, 240, 1);
   box-shadow: inset 0px 1px 1px 0px rgba(240, 237, 240, 1);
 }
-
-/* #minesweeper-board .non-visible:active {
-  box-shadow: 0 2px 0 #b2b2b3;
-  transform: translateY(1px);
-} */

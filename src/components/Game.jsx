@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import {
   startGame,
   revealCell,
@@ -8,13 +8,15 @@ import {
   loadGame,
   undoLoosingMove,
   difficulties,
-} from 'minesweeper-redux';
+  CellStatus,
+  GameStatus,
+} from "minesweeper-redux";
 
-import './styles.css';
+import "./styles.css";
 
 function Row({ row, leftClick, rightClick }) {
   return (
-    <div className='row'>
+    <div className="row">
       {row.map(cell => (
         <Cell
           key={`cell-${cell.coordinate.x}${cell.coordinate.y}`}
@@ -29,30 +31,29 @@ function Row({ row, leftClick, rightClick }) {
 
 function Cell({ cell, leftClick, rightClick }) {
   const cellContent = cell => {
-    if (cell.isFlagged) {
-      return '🚩';
+    switch (cell.status) {
+      case CellStatus.Flagged:
+        return "🚩";
+      case CellStatus.Hidden:
+        return " ";
+      case CellStatus.Detonated:
+        return "💥";
+      case CellStatus.Revealed:
+        if (cell.isMine) {
+          return "💣";
+        }
+        return cell.mineCount > 0 ? `${cell.mineCount}` : "🌊";
+      default:
+        return "";
     }
-    if (!cell.isMine && cell.isVisible && cell.mineCount > 0) {
-      return `${cell.mineCount}`;
-    }
-    if (!cell.isMine && cell.isVisible && cell.mineCount === 0) {
-      return '🌊';
-    }
-    if (cell.isMine && cell.isVisible && !cell.isDetonated) {
-      return '💣';
-    }
-    if (cell.isMine && cell.isDetonated) {
-      return '💥';
-    }
-    return ' ';
   };
 
   return (
     <div
       onClick={leftClick}
       onContextMenu={rightClick}
-      className={`col text-center ${cell.isVisible ? 'visible' : 'non-visible'}`}>
-      <div className='col-content'>{cellContent(cell)}</div>
+      className={`col text-center ${cell.isVisible ? "visible" : "non-visible"}`}>
+      <div className="col-content">{cellContent(cell)}</div>
     </div>
   );
 }
@@ -63,37 +64,51 @@ function GameHeader({ gameState }) {
     return _val > 9 ? `${_val}` : `0${_val}`;
   };
 
-  if (gameState.status === 'RUNNING') {
+  if (gameState.status === GameStatus.Running) {
     return (
-      <div id='minesweeper-header'>
-        <div id='timer'>
-          <span id='minutes'>{formatTime(gameState.elapsedTime, true)}</span>:
-          <span id='seconds'>{formatTime(gameState.elapsedTime, false)}</span>
+      <div id="minesweeper-header">
+        <div id="timer">
+          <span id="minutes">{formatTime(gameState.elapsedTime, true)}</span>:
+          <span id="seconds">{formatTime(gameState.elapsedTime, false)}</span>
         </div>
-        <div id='remaining-flags'>Remaining Flags: {gameState.remainingFlags}</div>
+        <div id="remaining-flags">Remaining Flags: {gameState.remainingFlags}</div>
       </div>
     );
   } else {
-    return <div id='minesweeper-header' />;
+    return <div id="minesweeper-header" />;
   }
 }
 
-function GameFooter({ gameStatus, onUndoMove }) {
-  if (gameStatus === 'LOSS') {
+function GameFooter({ gameStatus, onUndoMove, startNewGame }) {
+  switch (gameStatus) {
+    case GameStatus.Loss:
+      return (
+        <div id="minesweeper-footer">
+          <button onClick={onUndoMove}>Undo move</button>
+        </div>
+      );
+    case GameStatus.Win:
+      return (
+        <div id="minesweeper-footer">
+          <button onClick={startNewGame}>New Game</button>
+        </div>
+      );
+    default:
+      return <div id="minesweeper-footer" />;
+  }
+}
+
+function GameBoard({ gameState, startNewGame, onLeftClick, onRightClick }) {
+  if (gameState.status === GameStatus.Waiting) {
     return (
-      <div id='minesweeper-footer'>
-        <button onClick={onUndoMove}>Undo move</button>
+      <div id="minesweeper-board">
+        <button onClick={startNewGame}>Start Game</button>
       </div>
     );
-  } else {
-    return <div id='minesweeper-footer' />;
   }
-}
-
-function GameBoard({ gameState, onLeftClick, onRightClick }) {
   return (
-    <div id='minesweeper-board'>
-      {gameState.board.grid.map((row, index) => (
+    <div id="minesweeper-board">
+      {gameState.board.grid.cells.map((row, index) => (
         <Row
           key={`row-${row[index].coordinate.x}${row[index].coordinate.y}`}
           row={row}
@@ -106,8 +121,7 @@ function GameBoard({ gameState, onLeftClick, onRightClick }) {
 }
 
 function GameExample(props) {
-  // start the game on mount
-  useEffect(() => {
+  const startNewGame = () => {
     props.startGame({
       difficulty: difficulties.easy,
       randSeed: Math.random(),
@@ -116,7 +130,7 @@ function GameExample(props) {
       },
     });
     console.log(props);
-  }, []);
+  };
 
   const onLeftClick = (e, cell) => {
     e.preventDefault();
@@ -134,14 +148,19 @@ function GameExample(props) {
   };
 
   return (
-    <div id='minesweeper-interface'>
+    <div id="minesweeper-interface">
       <GameHeader gameState={props.minesweeper} />
       <GameBoard
         gameState={props.minesweeper}
+        startNewGame={startNewGame}
         onLeftClick={onLeftClick}
         onRightClick={onRightClick}
       />
-      <GameFooter gameStatus={props.minesweeper.status} onUndoMove={onUndoMove} />
+      <GameFooter
+        gameStatus={props.minesweeper.status}
+        onUndoMove={onUndoMove}
+        startNewGame={startNewGame}
+      />
     </div>
   );
 }
