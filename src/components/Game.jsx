@@ -32,19 +32,17 @@ function Row({ row, leftClick, rightClick }) {
 function Cell({ cell, leftClick, rightClick }) {
   const cellContent = cell => {
     switch (cell.status) {
-      case CellStatus.Flagged:
-        return "🚩";
       case CellStatus.Hidden:
         return " ";
-      case CellStatus.Detonated:
-        return "💥";
+      case CellStatus.Flagged:
+        return "🚩";
       case CellStatus.Revealed:
         if (cell.isMine) {
           return "💣";
         }
         return cell.mineCount > 0 ? `${cell.mineCount}` : "🌊";
-      default:
-        return "";
+      case CellStatus.Detonated:
+        return "💥";
     }
   };
 
