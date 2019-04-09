@@ -43,6 +43,8 @@ function Cell({ cell, leftClick, rightClick }) {
         return cell.mineCount > 0 ? `${cell.mineCount}` : "🌊";
       case CellStatus.Detonated:
         return "💥";
+      default:
+        return "";
     }
   };
 
