@@ -4,14 +4,15 @@ import Row from './Row'
 import { CellMouseEvent } from './types'
 
 export interface BoardProps {
-  gameState: IMinesweeper
+  status: GameStatus
+  board: IMinesweeper['board']
   startNewGame: MouseEventHandler
   onLeftClick: CellMouseEvent
   onRightClick: CellMouseEvent
 }
 
-function Board({ gameState, startNewGame, onLeftClick, onRightClick }: BoardProps) {
-  if (gameState.status === GameStatus.Waiting) {
+function Board({ status, board, startNewGame, onLeftClick, onRightClick }: BoardProps) {
+  if (status === GameStatus.Waiting) {
     return (
       <div id="minesweeper-board">
         <button onClick={startNewGame}>Start Game</button>
@@ -20,7 +21,7 @@ function Board({ gameState, startNewGame, onLeftClick, onRightClick }: BoardProp
   }
   return (
     <div id="minesweeper-board">
-      {gameState.board.grid.cells.map((row, index) => (
+      {board.grid.cells.map((row, index) => (
         <Row
           key={`row-${row[index].coordinate.x}${row[index].coordinate.y}`}
           row={row}

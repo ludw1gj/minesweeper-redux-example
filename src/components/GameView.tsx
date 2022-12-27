@@ -7,25 +7,33 @@ import {
   tickTimer,
   IMinesweeper,
   ICell,
+  StartGameActionOptions,
+  StartGameAction,
 } from 'minesweeper-redux'
 import { connect, useDispatch } from 'react-redux'
+import { Dispatch } from 'redux'
 import Board from './Board'
 import Footer from './Footer'
 import Header from './Header'
 
-function GameView({ minesweeper }: { minesweeper: IMinesweeper }) {
+export interface GameViewProps {
+  minesweeper: IMinesweeper
+  timerCallback: () => void
+  startGame: (options: StartGameActionOptions) => StartGameAction
+}
+
+function GameView({ minesweeper, timerCallback, startGame }: GameViewProps) {
   const dispatch = useDispatch()
 
-  const startNewGame = () =>
-    dispatch(
-      startGame({
-        difficulty: difficulties.easy,
-        randSeed: Math.random(),
-        timerCallback: () => {
-          dispatch(tickTimer())
-        },
-      })
-    )
+  const startNewGame = () => {
+    startGame({
+      difficulty: difficulties.easy,
+      randSeed: Math.random(),
+      timerCallback: () => {
+        timerCallback()
+      },
+    })
+  }
 
   const onLeftClick = (e: React.MouseEvent, cell: ICell) => {
     e.preventDefault()
@@ -44,9 +52,14 @@ function GameView({ minesweeper }: { minesweeper: IMinesweeper }) {
 
   return (
     <div id="minesweeper-interface">
-      <Header gameState={minesweeper} />
+      <Header
+        status={minesweeper.status}
+        elapsedTime={minesweeper.elapsedTime}
+        remainingFlags={minesweeper.remainingFlags}
+      />
       <Board
-        gameState={minesweeper}
+        status={minesweeper.status}
+        board={minesweeper.board}
         startNewGame={startNewGame}
         onLeftClick={onLeftClick}
         onRightClick={onRightClick}
@@ -62,4 +75,11 @@ const mapStateToProps = (state: { minesweeper: IMinesweeper }) => {
   }
 }
 
-export default connect(mapStateToProps)(GameView)
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    timerCallback: () => dispatch(tickTimer()),
+    startGame: (options: StartGameActionOptions) => dispatch(startGame(options)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameView)
