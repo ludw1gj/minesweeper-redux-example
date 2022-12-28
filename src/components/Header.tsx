@@ -1,4 +1,5 @@
 import { GameStatus } from 'minesweeper-redux'
+import styles from './Header.module.css'
 
 export interface GameHeaderProps {
   status: GameStatus
@@ -12,19 +13,19 @@ function GameHeader({ status, elapsedTime, remainingFlags }: GameHeaderProps) {
     return _val > 9 ? `${_val}` : `0${_val}`
   }
 
-  if (status === 'running') {
-    return (
-      <div id="minesweeper-header">
-        <div id="timer">
-          <span id="minutes">{formatTime(elapsedTime, 'minutes')}</span>:
-          <span id="seconds">{formatTime(elapsedTime, 'seconds')}</span>
+  const content =
+    status !== 'running' ? (
+      <></>
+    ) : (
+      <div className={styles.minesweeperHeader}>
+        <div className="timer">
+          <span className="minutes">{formatTime(elapsedTime, 'minutes')}</span>:
+          <span className="seconds">{formatTime(elapsedTime, 'seconds')}</span>
         </div>
-        <div id="remaining-flags">Remaining Flags: {remainingFlags}</div>
+        <div className={styles.remainingFlags}>Remaining Flags: {remainingFlags}</div>
       </div>
     )
-  } else {
-    return <div id="minesweeper-header" />
-  }
+  return <div className={styles.minesweeperHeader}> {content} </div>
 }
 
 export default GameHeader

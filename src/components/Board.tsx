@@ -2,6 +2,7 @@ import { GameStatus, Grid } from 'minesweeper-redux'
 import { MouseEventHandler } from 'react'
 import Row from './Row'
 import { CellMouseEvent } from './types'
+import styles from './Board.module.css'
 
 export interface BoardProps {
   status: GameStatus
@@ -12,24 +13,24 @@ export interface BoardProps {
 }
 
 function Board({ status, grid, startNewGame, onLeftClick, onRightClick }: BoardProps) {
-  if (status === 'waiting') {
-    return (
-      <div id="minesweeper-board">
-        <button onClick={startNewGame}>Start Game</button>
-      </div>
-    )
-  }
+  const rows = grid.map((row, index) => (
+    <Row
+      key={`row-${index}`}
+      rowIndex={index}
+      row={row}
+      leftClick={onLeftClick}
+      rightClick={onRightClick}
+    />
+  ))
   return (
-    <div id="minesweeper-board">
-      {grid.map((row, index) => (
-        <Row
-          key={`row-${index}`}
-          rowIndex={index}
-          row={row}
-          leftClick={onLeftClick}
-          rightClick={onRightClick}
-        />
-      ))}
+    <div className={styles.minesweeperBoard}>
+      {status === 'waiting' ? (
+        <button className={styles.startButton} onClick={startNewGame}>
+          Start Game
+        </button>
+      ) : (
+        rows
+      )}
     </div>
   )
 }

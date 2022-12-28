@@ -1,7 +1,7 @@
 import { Cell as ICell } from 'minesweeper-redux'
 import Cell from './Cell'
-import './styles.css'
 import { CellMouseEvent } from './types'
+import styles from './Row.module.css'
 export interface RowProps {
   rowIndex: number
   row: readonly ICell[]
@@ -11,7 +11,7 @@ export interface RowProps {
 
 function Row({ rowIndex, row, leftClick, rightClick }: RowProps) {
   return (
-    <div className="row">
+    <div className={styles.row}>
       {row.map((cell, index) => (
         <Cell
           key={`cell-${rowIndex}-${index}`}

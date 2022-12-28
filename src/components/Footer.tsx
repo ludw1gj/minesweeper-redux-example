@@ -1,5 +1,6 @@
 import { GameStatus } from 'minesweeper-redux'
 import { MouseEventHandler } from 'react'
+import styles from './Footer.module.css'
 
 interface FooterProps {
   gameStatus: GameStatus
@@ -8,22 +9,25 @@ interface FooterProps {
 }
 
 function Footer({ gameStatus, onUndoMove, startNewGame }: FooterProps) {
-  switch (gameStatus) {
-    case 'loss':
-      return (
-        <div id="minesweeper-footer">
-          <button onClick={onUndoMove}>Undo move</button>
-        </div>
-      )
-    case 'win':
-      return (
-        <div id="minesweeper-footer">
-          <button onClick={startNewGame}>New Game</button>
-        </div>
-      )
-    default:
-      return <div id="minesweeper-footer" />
+  const button = () => {
+    switch (gameStatus) {
+      case 'loss':
+        return (
+          <button className={styles.actionButton} onClick={onUndoMove}>
+            Undo move
+          </button>
+        )
+      case 'win':
+        return (
+          <button className={styles.actionButton} onClick={startNewGame}>
+            New Game
+          </button>
+        )
+      default:
+        return <></>
+    }
   }
+  return <div className={styles.minesweeperFooter}>{button()}</div>
 }
 
 export default Footer

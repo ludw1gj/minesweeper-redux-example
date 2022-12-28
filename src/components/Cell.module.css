@@ -1,0 +1,38 @@
+.col {
+  width: 2.5em;
+  height: 2.5em;
+}
+
+.colContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2.5em;
+  height: 2.5em;
+}
+
+.nonVisible {
+  background: #fcfcfc;
+  color: black;
+  cursor: pointer;
+  outline: 0;
+
+  border-style: solid;
+  border-radius: 2px;
+  border-width: 1px;
+  border-color: #dddddd;
+}
+
+.visible {
+  border: 0;
+  background: #fcfcfc;
+  border-radius: 2px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: white;
+
+  -webkit-box-shadow: inset 0px 1px 1px 0px rgba(240, 237, 240, 1);
+  -moz-box-shadow: inset 0px 1px 1px 0px rgba(240, 237, 240, 1);
+  box-shadow: inset 0px 1px 1px 0px rgba(240, 237, 240, 1);
+}

@@ -1,0 +1,12 @@
+.minesweeperHeader {
+  user-select: none;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 35px;
+}
+
+.remainingFlags {
+  margin-left: 1em;
+}

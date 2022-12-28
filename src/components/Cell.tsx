@@ -1,5 +1,6 @@
 import { MouseEventHandler } from 'react'
 import { Cell as ICell } from 'minesweeper-redux'
+import styles from './Cell.module.css'
 
 export interface CellProps {
   cell: ICell
@@ -30,9 +31,9 @@ function Cell({ cell, leftClick, rightClick }: CellProps) {
     <div
       onClick={leftClick}
       onContextMenu={rightClick}
-      className={`col text-center ${cell.status === 'revealed' ? 'visible' : 'non-visible'}`}
+      className={`${styles.col} ${cell.status === 'revealed' ? styles.visible : styles.nonVisible}`}
     >
-      <div className="col-content">{cellContent(cell)}</div>
+      <div className={styles.colContent}>{cellContent(cell)}</div>
     </div>
   )
 }

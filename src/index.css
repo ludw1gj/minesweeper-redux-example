@@ -9,27 +9,3 @@ body {
   margin: 0px;
   padding: 0px;
 }
-
-#wrapper {
-  height: 95vh;
-  margin: 0;
-
-  display: grid;
-  grid-template-areas: 'minesweeper-interface';
-  grid-template-rows: 70px 1fr 40px;
-  grid-template-columns: 20em 1fr;
-  grid-row-gap: 1em;
-  grid-column-gap: 1em;
-}
-
-#wrapper #board-interface {
-  grid-area: board-interface;
-}
-
-@media all and (max-width: 1024px) {
-  #wrapper {
-    grid-template-areas: 'minesweeper-interface';
-    grid-template-rows: 70px 125px 1fr 40px;
-    grid-template-columns: 1fr;
-  }
-}

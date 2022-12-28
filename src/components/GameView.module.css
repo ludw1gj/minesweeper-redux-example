@@ -1,0 +1,8 @@
+.minesweeperInterface {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0.5em;
+  margin-left: 0.75em;
+  margin-right: 1.5em;
+  margin-bottom: 2em;
+}

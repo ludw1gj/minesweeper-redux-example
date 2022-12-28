@@ -1,11 +1,11 @@
 import GameView from './components/GameView'
-
+import styles from './App.module.css'
 import './index.css'
 
 /** The main component. */
 const App = () => {
   return (
-    <div id="wrapper">
+    <div className={styles.wrapper}>
       <GameView />
     </div>
   )

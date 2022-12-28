@@ -1,0 +1,14 @@
+.minesweeperBoard {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.startButton {
+  cursor: pointer;
+}

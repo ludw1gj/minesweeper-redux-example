@@ -15,6 +15,7 @@ import { Dispatch } from 'redux'
 import Board from './Board'
 import Footer from './Footer'
 import Header from './Header'
+import styles from './GameView.module.css'
 
 export interface GameViewProps {
   minesweeper: Minesweeper
@@ -51,7 +52,7 @@ function GameView({ minesweeper, timerCallback, startGame }: GameViewProps) {
   }
 
   return (
-    <div id="minesweeper-interface">
+    <div className={styles.minesweeperInterface}>
       <Header
         status={minesweeper.status}
         elapsedTime={minesweeper.elapsedTime}
