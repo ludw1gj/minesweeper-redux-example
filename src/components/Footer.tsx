@@ -9,13 +9,13 @@ interface FooterProps {
 
 function Footer({ gameStatus, onUndoMove, startNewGame }: FooterProps) {
   switch (gameStatus) {
-    case GameStatus.Loss:
+    case 'loss':
       return (
         <div id="minesweeper-footer">
           <button onClick={onUndoMove}>Undo move</button>
         </div>
       )
-    case GameStatus.Win:
+    case 'win':
       return (
         <div id="minesweeper-footer">
           <button onClick={startNewGame}>New Game</button>

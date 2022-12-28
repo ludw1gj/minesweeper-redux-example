@@ -1,22 +1,23 @@
-import { ICell } from 'minesweeper-redux'
+import { Cell as ICell } from 'minesweeper-redux'
 import Cell from './Cell'
 import './styles.css'
 import { CellMouseEvent } from './types'
 export interface RowProps {
+  rowIndex: number
   row: readonly ICell[]
   leftClick: CellMouseEvent
   rightClick: CellMouseEvent
 }
 
-function Row({ row, leftClick, rightClick }: RowProps) {
+function Row({ rowIndex, row, leftClick, rightClick }: RowProps) {
   return (
     <div className="row">
-      {row.map((cell: ICell) => (
+      {row.map((cell, index) => (
         <Cell
-          key={`cell-${cell.coordinate.x}${cell.coordinate.y}`}
+          key={`cell-${rowIndex}-${index}`}
           cell={cell}
-          leftClick={(e) => leftClick(e, cell)}
-          rightClick={(e) => rightClick(e, cell)}
+          leftClick={(e) => leftClick(e, { x: index, y: rowIndex })}
+          rightClick={(e) => rightClick(e, { x: index, y: rowIndex })}
         />
       ))}
     </div>

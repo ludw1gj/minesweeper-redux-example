@@ -1,4 +1,4 @@
-import { GameStatus, IMinesweeper } from 'minesweeper-redux'
+import { GameStatus } from 'minesweeper-redux'
 
 export interface GameHeaderProps {
   status: GameStatus
@@ -12,7 +12,7 @@ function GameHeader({ status, elapsedTime, remainingFlags }: GameHeaderProps) {
     return _val > 9 ? `${_val}` : `0${_val}`
   }
 
-  if (status === GameStatus.Running) {
+  if (status === 'running') {
     return (
       <div id="minesweeper-header">
         <div id="timer">

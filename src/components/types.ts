@@ -1,3 +1,3 @@
-import { ICell } from 'minesweeper-redux'
+import { Coordinate } from 'minesweeper-redux'
 
-export type CellMouseEvent = (e: React.MouseEvent, cell: ICell) => void
+export type CellMouseEvent = (e: React.MouseEvent, coordinate: Coordinate) => void

@@ -5,10 +5,10 @@ import {
   toggleFlag,
   undoLoosingMove,
   tickTimer,
-  IMinesweeper,
-  ICell,
+  Minesweeper,
   StartGameActionOptions,
   StartGameAction,
+  Coordinate,
 } from 'minesweeper-redux'
 import { connect, useDispatch } from 'react-redux'
 import { Dispatch } from 'redux'
@@ -17,7 +17,7 @@ import Footer from './Footer'
 import Header from './Header'
 
 export interface GameViewProps {
-  minesweeper: IMinesweeper
+  minesweeper: Minesweeper
   timerCallback: () => void
   startGame: (options: StartGameActionOptions) => StartGameAction
 }
@@ -35,14 +35,14 @@ function GameView({ minesweeper, timerCallback, startGame }: GameViewProps) {
     })
   }
 
-  const onLeftClick = (e: React.MouseEvent, cell: ICell) => {
+  const onLeftClick = (e: React.MouseEvent, coordinate: Coordinate) => {
     e.preventDefault()
-    dispatch(revealCell({ coordinate: cell.coordinate }))
+    dispatch(revealCell({ coordinate }))
   }
 
-  const onRightClick = (e: React.MouseEvent, cell: ICell) => {
+  const onRightClick = (e: React.MouseEvent, coordinate: Coordinate) => {
     e.preventDefault()
-    dispatch(toggleFlag({ coordinate: cell.coordinate }))
+    dispatch(toggleFlag({ coordinate }))
   }
 
   const onUndoMove = (e: React.MouseEvent) => {
@@ -59,7 +59,7 @@ function GameView({ minesweeper, timerCallback, startGame }: GameViewProps) {
       />
       <Board
         status={minesweeper.status}
-        board={minesweeper.board}
+        grid={minesweeper.grid}
         startNewGame={startNewGame}
         onLeftClick={onLeftClick}
         onRightClick={onRightClick}
@@ -69,7 +69,7 @@ function GameView({ minesweeper, timerCallback, startGame }: GameViewProps) {
   )
 }
 
-const mapStateToProps = (state: { minesweeper: IMinesweeper }) => {
+const mapStateToProps = (state: { minesweeper: Minesweeper }) => {
   return {
     minesweeper: state.minesweeper,
   }

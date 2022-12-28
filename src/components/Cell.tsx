@@ -1,5 +1,5 @@
-import { CellStatus, ICell } from 'minesweeper-redux'
 import { MouseEventHandler } from 'react'
+import { Cell as ICell } from 'minesweeper-redux'
 
 export interface CellProps {
   cell: ICell
@@ -10,16 +10,16 @@ export interface CellProps {
 function Cell({ cell, leftClick, rightClick }: CellProps) {
   const cellContent = (cell: ICell) => {
     switch (cell.status) {
-      case CellStatus.Hidden:
+      case 'hidden':
         return ' '
-      case CellStatus.Flagged:
+      case 'flagged':
         return '🚩'
-      case CellStatus.Revealed:
-        if (cell.isMine) {
+      case 'revealed':
+        if (cell.mineCount === -1) {
           return '💣'
         }
         return cell.mineCount > 0 ? `${cell.mineCount}` : '🌊'
-      case CellStatus.Detonated:
+      case 'detonated':
         return '💥'
       default:
         return ''
@@ -30,9 +30,7 @@ function Cell({ cell, leftClick, rightClick }: CellProps) {
     <div
       onClick={leftClick}
       onContextMenu={rightClick}
-      className={`col text-center ${
-        cell.status === CellStatus.Revealed ? 'visible' : 'non-visible'
-      }`}
+      className={`col text-center ${cell.status === 'revealed' ? 'visible' : 'non-visible'}`}
     >
       <div className="col-content">{cellContent(cell)}</div>
     </div>

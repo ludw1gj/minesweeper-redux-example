@@ -1,18 +1,18 @@
-import { IMinesweeper, GameStatus } from 'minesweeper-redux'
+import { GameStatus, Grid } from 'minesweeper-redux'
 import { MouseEventHandler } from 'react'
 import Row from './Row'
 import { CellMouseEvent } from './types'
 
 export interface BoardProps {
   status: GameStatus
-  board: IMinesweeper['board']
+  grid: Grid
   startNewGame: MouseEventHandler
   onLeftClick: CellMouseEvent
   onRightClick: CellMouseEvent
 }
 
-function Board({ status, board, startNewGame, onLeftClick, onRightClick }: BoardProps) {
-  if (status === GameStatus.Waiting) {
+function Board({ status, grid, startNewGame, onLeftClick, onRightClick }: BoardProps) {
+  if (status === 'waiting') {
     return (
       <div id="minesweeper-board">
         <button onClick={startNewGame}>Start Game</button>
@@ -21,9 +21,10 @@ function Board({ status, board, startNewGame, onLeftClick, onRightClick }: Board
   }
   return (
     <div id="minesweeper-board">
-      {board.grid.cells.map((row, index) => (
+      {grid.map((row, index) => (
         <Row
-          key={`row-${row[index].coordinate.x}${row[index].coordinate.y}`}
+          key={`row-${index}`}
+          rowIndex={index}
           row={row}
           leftClick={onLeftClick}
           rightClick={onRightClick}
