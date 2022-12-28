@@ -19,20 +19,16 @@ import styles from './GameView.module.css'
 
 export interface GameViewProps {
   minesweeper: Minesweeper
-  timerCallback: () => void
   startGame: (options: StartGameActionOptions) => StartGameAction
 }
 
-function GameView({ minesweeper, timerCallback, startGame }: GameViewProps) {
+function GameView({ minesweeper, startGame }: GameViewProps) {
   const dispatch = useDispatch()
 
   const startNewGame = () => {
     startGame({
       difficulty: difficulties.easy,
       randSeed: Math.random(),
-      timerCallback: () => {
-        timerCallback()
-      },
     })
   }
 

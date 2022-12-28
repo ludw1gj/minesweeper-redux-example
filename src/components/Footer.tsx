@@ -13,9 +13,14 @@ function Footer({ gameStatus, onUndoMove, startNewGame }: FooterProps) {
     switch (gameStatus) {
       case 'loss':
         return (
-          <button className={styles.actionButton} onClick={onUndoMove}>
-            Undo move
-          </button>
+          <>
+            <button className={styles.actionButton} onClick={onUndoMove}>
+              Undo move
+            </button>
+            <button className={styles.actionButton} onClick={startNewGame}>
+              New Game
+            </button>
+          </>
         )
       case 'win':
         return (

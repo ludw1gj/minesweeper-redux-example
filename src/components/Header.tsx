@@ -1,4 +1,6 @@
 import { GameStatus } from 'minesweeper-redux'
+import { useEffect, useMemo, useState } from 'react'
+import { useTimer } from '../hooks/useTimer'
 import styles from './Header.module.css'
 
 export interface GameHeaderProps {
@@ -7,7 +9,23 @@ export interface GameHeaderProps {
   remainingFlags: number
 }
 
-function GameHeader({ status, elapsedTime, remainingFlags }: GameHeaderProps) {
+function GameHeader({ status, remainingFlags }: GameHeaderProps) {
+  const { elapsedTime, pause, start, stop } = useTimer(0, false)
+
+  useEffect(() => {
+    if (status === 'waiting' || status === 'ready' || status === 'win') {
+      stop()
+      return
+    }
+    if (status === 'loss') {
+      pause()
+      return
+    }
+    if (status === 'running') {
+      start()
+    }
+  }, [status])
+
   const formatTime = (milliseconds: number, timeFormat: 'minutes' | 'seconds') => {
     const _val = timeFormat === 'minutes' ? Math.trunc(milliseconds / 60) : milliseconds % 60
     return _val > 9 ? `${_val}` : `0${_val}`
